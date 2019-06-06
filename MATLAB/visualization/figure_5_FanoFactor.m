@@ -2,11 +2,11 @@ clear
 close all
 clc
 
-param.data_path       = '\\ad.monash.edu\home\User098\masoudg\Desktop\EEG_Psycho_Data\Data\FanoFactor_data';  % EEG/decoding/FF data directory
-analysis_figures_dir   = '\\ad.monash.edu\home\User098\masoudg\Desktop\EEG_Psycho_Data\Figure_05\plots';
-param.region          = 1;  % electrode region: occ = 1, parti = 2, wholehead = 3,
+param.data_path       = 'C:\MyFolder\Face_Familiarity\Data\FanoFactor_data';  % EEG/decoding/FF data directory
+analysis_figures_dir   = 'C:\MyFolder\Face_Familiarity\Git\face_familiarity\Figure_05\plots';
+param.region          = 3;  % electrode region: occ = 1, parti = 2, wholehead = 3,
 param.trial_type      = 1 : 3; % trial types: all = 3, cor = 2, incor = 1,
-param.alignment       = 1;  % EEG/decoding/FF alignment: 1 : stimulus, 2 : response,
+param.alignment       = 2;  % EEG/decoding/FF alignment: 1 : stimulus, 2 : response,
 param.smoothing_win   = 3;  % length of smoothing window (data point)
 param.separatedByCats = false;  % separate by face image category
 
@@ -68,7 +68,7 @@ clc
 
 param.sr               = 1000; % sampling arte
 param.window_stim      = [-100 600]; % window of presentation
-param.window_dec       = [-500 100]; % window of presentation
+param.window_dec       = [-800 100]; % window of presentation
 param.window_gap       = 50;
 param.coherence        = 4;
 param.channel          = 22; %[20:24]; % 22 21 16 44 48   56 57 63 12 40
