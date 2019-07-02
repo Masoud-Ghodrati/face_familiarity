@@ -62,7 +62,7 @@ param.time_dec         = -600:param.slidwind :100;
 param.subj_name        = 'all';
 param.error            = 'sem';
 param.p_tresh          = 0.05;
-param.linestyle        = {'-','-.',':', '-'}; 
+param.linestyle        = {'-','-.',':', '-'};
 % set plot properties
 plot_linewidth         = 1;
 
@@ -116,7 +116,7 @@ for iCond = [1 2 4]
     pval_ocip_stim                        = this_pval_ocpi_stim( param.time_stim >= param.window_stim(1) & param.time_stim <= param.window_stim(2));
     pval_ocip_stim( pval_ocip_stim == 1)  = mean_data_ocip_stim(pval_ocip_stim == 1);
     
-    shade_data{iCond, 1} = mean_data_ocip_stim;
+    shade_data{1}(iCond, 1, :) = mean_data_ocip_stim;
     
     % for decision aligned occipital
     this_data_ocip_dec  = param.aligned(2).data_ocip(iCond, :, 1);
@@ -128,9 +128,9 @@ for iCond = [1 2 4]
     pval_ocip_dec                      = this_pval_ocip_dec(param.time_dec >= param.window_dec(1) & param.time_dec <= param.window_dec(2));
     pval_ocip_dec( pval_ocip_dec == 1) = mean_data_ocip_dec(pval_ocip_dec == 1);
     
-    shade_data{iCond, 2} = mean_data_ocip_dec;
+    shade_data{2}(iCond, 1, :) = mean_data_ocip_dec;
     
-        % for stim aligned frontal
+    % for stim aligned frontal
     this_data_fron_stim = param.aligned(1).data_fron(iCond, :, 1);
     this_pval_fron_stim = param.aligned(1).data_fron(iCond, :, 2);
     
@@ -139,8 +139,8 @@ for iCond = [1 2 4]
     
     pval_fron_stim                        = this_pval_fron_stim( param.time_stim >= param.window_stim(1) & param.time_stim <= param.window_stim(2));
     pval_fron_stim( pval_fron_stim == 1)  = mean_data_fron_stim(pval_fron_stim == 1);
- 
-    shade_data{iCond, 1} = mean_data_fron_stim;
+    
+    shade_data{1}(iCond, 2, :) = mean_data_fron_stim;
     % for decision aligned frontal
     this_data_fron_dec  = param.aligned(2).data_fron(iCond, :, 1);
     this_pval_fron_dec  = param.aligned(2).data_fron(iCond, :, 2);
@@ -150,12 +150,18 @@ for iCond = [1 2 4]
     
     pval_fron_dec                      = this_pval_fron_dec(param.time_dec >= param.window_dec(1) & param.time_dec <= param.window_dec(2));
     pval_fron_dec( pval_fron_dec == 1) = mean_data_fron_dec(pval_fron_dec == 1);
-    shade_data{iCond, 2} = mean_data_fron_dec;
+    
+    shade_data{2}(iCond, 2, :) = mean_data_fron_dec;
     
     if iCond <= 2
         subplot(2, 2, 1)
-    elseif iCond >= 4      
-        subplot(2, 2, 3)  
+        if iCond == 2
+            t = param.window_stim(1) : param.slidwind : param.window_stim(2);
+            shade_area(t, squeeze(shade_data{1}(1,2,:))', squeeze(shade_data{1}(2,2,:))', ones(size(t)))
+            shade_area(t, squeeze(shade_data{1}(1,1,:))', squeeze(shade_data{1}(2,1,:))', ones(size(t)))
+        end
+    elseif iCond >= 4
+        subplot(2, 2, 3)
     end
     % plot ocip
     h           = plot(param.window_stim(1) : param.slidwind : param.window_stim(2), mean_data_ocip_stim);
@@ -181,18 +187,24 @@ for iCond = [1 2 4]
     
     if iCond <= 2
         subplot(2, 2, 2)
-    elseif iCond >= 4      
-        subplot(2, 2, 4)  
+        if iCond == 2
+            t = param.window_dec(1) : param.slidwind : param.window_dec(2);
+            shade_area(t, squeeze(shade_data{2}(1,2,:))', squeeze(shade_data{2}(2,2,:))', ones(size(t)))
+            shade_area(t, squeeze(shade_data{2}(1,1,:))', squeeze(shade_data{2}(2,1,:))', ones(size(t)))
+        end
+    elseif iCond >= 4
+        subplot(2, 2, 4)
     end
     % plot ocip
     h           = plot(param.window_dec(1) : param.slidwind : param.window_dec(2), mean_data_ocip_dec);
     h.LineWidth = plot_linewidth;
     h.Color     = cl(1, :);
+     h.LineStyle = param.linestyle{iCond};
     hold on
     h           = plot(param.window_dec(1) : param.slidwind : param.window_dec(2), pval_ocip_dec);
     h.LineWidth = plot_linewidth + 1;
     h.Color     = cl(1, :);
-    h.LineStyle = param.linestyle{iCond};
+   
     
     % plot front
     h           = plot(param.window_dec(1) : param.slidwind : param.window_dec(2), mean_data_fron_dec);
@@ -205,7 +217,7 @@ for iCond = [1 2 4]
     h.LineWidth = plot_linewidth + 1;
     h.Color     = cl(2, :);
     
-
+    
     
     
     
@@ -339,7 +351,7 @@ fig.Position        = [100 100 570 460];
 fig.PaperSize       = pdf_paper_size;
 print([ param.analysis_figures_dir '\' pdf_file_name '.pdf'], '-dpdf', pdf_print_resolution)
 
-% 
+%
 % % plot model RDMS
 % figure(2)
 % c = colormap(hot);
@@ -352,14 +364,14 @@ print([ param.analysis_figures_dir '\' pdf_file_name '.pdf'], '-dpdf', pdf_print
 % subplot(122)
 % imagesc(Familiarity_levels_Model_RDM)
 % axis off
-% 
-% 
+%
+%
 % fig                 = gcf;
 % fig.PaperUnits      = 'centimeters';
 % fig.Position        = [100 100 200 80];
 % fig.PaperSize       = pdf_paper_size;
 % set(0, 'DefaultFigureRenderer', 'OpenGL');
 % print('-painters', '-dpng', [ param.analysis_figures_dir '\' pdf_file_name '_MODELRDM.png'],'-r600')
-% 
-% 
-% 
+%
+%
+%
