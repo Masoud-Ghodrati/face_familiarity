@@ -2,8 +2,8 @@ clear
 close all
 clc
 
-param.data_path             = [ cd '\refigure3\'];
-param.analysis_figures_dir  = [cd];
+param.data_path             = ['C:\MyFolder\Face_Familiarity\Data\EEG_Psy_data\'];
+param.analysis_figures_dir  = ['C:\MyFolder\Face_Familiarity\Git\face_familiarity\Figure_02\plots'];
 param.region                = [3];
 
 load([param.data_path  'st_aligned_Correlation_Betw_Decoding_Behaviour_region_' num2str(param.region) '.mat'])
@@ -51,7 +51,7 @@ axis_tick_len          = 2;
 axis_box_outline       = 'off';
 axis_tick_style        = 'out';
 axis_xlabel            = 'Time (s)';
-axis_ylabel            = 'r^2';
+axis_ylabel            = 'Correlation ({\it r})';
 axis_yxlabel_fontsize  = 10;
 axis_yxlabel_fontangle = 'normal';
 axis_yxtick_fontsize   = 8;
