@@ -5,7 +5,7 @@ clc
 param.data_path             = ['C:\MyFolder\Face_Familiarity\Data\RSA_feedback_feedforward_data\'];
 param.analysis_figures_dir  = ['C:\MyFolder\Face_Familiarity\Git\face_familiarity\Figure_04\plots'];
 param.region                = [3];
-param.coherence             = [0.55];
+param.coherence             = [0.45];
 param.file_names            = {'st_information_flow_analysis_coherence_',...
     'rp_information_flow_analysis_coherence_'};
 
@@ -64,7 +64,7 @@ param.error            = 'sem';
 param.p_tresh          = 0.05;
 param.linestyle        = {'-','-.',':', '-'};
 % set plot properties
-plot_linewidth         = 1;
+plot_linewidth         = 0.7;
 
 % set axis properties
 axis_ylim              = [-0.01 0.045];
@@ -84,7 +84,7 @@ axis_yxlabel_fontangle = 'normal';
 axis_yxtick_fontsize   = 8;
 axis_yxtick_fontangle  = 'italic';
 axis_title_fontangle   = 'normal';
-axis_linewidth         = 1;
+axis_linewidth         = 0.7;
 
 % set legend properties
 legend_box_outline     = 'off';
@@ -93,7 +93,7 @@ legend_fontangel       = 'normal';
 legend_fontsize        = 8;
 
 % set saveing/printing properties
-pdf_file_name          = ['rdm_' date];
+pdf_file_name          = ['rdm_' num2str(param.coherence) '_' date];
 pdf_paper_size         = [20 20];
 pdf_print_resolution   = '-r300';
 
