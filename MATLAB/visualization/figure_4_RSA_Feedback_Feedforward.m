@@ -157,8 +157,8 @@ for iCond = [1 2 4]
         subplot(2, 2, 1)
         if iCond == 2
             t = param.window_stim(1) : param.slidwind : param.window_stim(2);
-            shade_area(t, squeeze(shade_data{1}(1,2,:))', squeeze(shade_data{1}(2,2,:))', ones(size(t)))
-            shade_area(t, squeeze(shade_data{1}(1,1,:))', squeeze(shade_data{1}(2,1,:))', ones(size(t)))
+            shade_area(t, squeeze(shade_data{1}(1,2,:))', squeeze(shade_data{1}(2,2,:))', ones(size(t)), cl(2, :), 0.1)
+            shade_area(t, squeeze(shade_data{1}(1,1,:))', squeeze(shade_data{1}(2,1,:))', ones(size(t)), cl(1, :), 0.1)
         end
     elseif iCond >= 4
         subplot(2, 2, 3)
@@ -189,8 +189,8 @@ for iCond = [1 2 4]
         subplot(2, 2, 2)
         if iCond == 2
             t = param.window_dec(1) : param.slidwind : param.window_dec(2);
-            shade_area(t, squeeze(shade_data{2}(1,2,:))', squeeze(shade_data{2}(2,2,:))', ones(size(t)))
-            shade_area(t, squeeze(shade_data{2}(1,1,:))', squeeze(shade_data{2}(2,1,:))', ones(size(t)))
+            shade_area(t, squeeze(shade_data{2}(1,2,:))', squeeze(shade_data{2}(2,2,:))', ones(size(t)), cl(2, :), 0.1)
+            shade_area(t, squeeze(shade_data{2}(1,1,:))', squeeze(shade_data{2}(2,1,:))', ones(size(t)), cl(1, :), 0.1)
         end
     elseif iCond >= 4
         subplot(2, 2, 4)
