@@ -3,8 +3,8 @@ close all
 clc
 
 
-param.data_path     = '\\ad.monash.edu\home\User098\masoudg\Desktop\EEG_Psycho_Data\Data\ERP_data';
-analysis_figures_dir = '\\ad.monash.edu\home\User098\masoudg\Desktop\EEG_Psycho_Data\Figure 1\plots';
+param.data_path     = 'C:\MyFolder\Face_Familiarity\Data\ERP_data';
+analysis_figures_dir = 'C:\MyFolder\Face_Familiarity\Git\face_familiarity\Figure_01\plots';
 
 
 load([param.data_path '\St_aligned_ERPs_categories_coh_0.22.mat'])
@@ -29,6 +29,7 @@ load([param.data_path '\Rp_aligned_ERPs_categories_coh_0.45.mat'])
 erp_data(3).coh.rp = ff;
 
 load([param.data_path '\Rp_aligned_ERPs_categories_coh_0.55.mat'])
+erp_data(4).coh.rp = ff;
 
 group_catg = {[1], [2], [3], [4]};
 group_chor = {0.22,0.3,0.45,0.55};
@@ -42,7 +43,7 @@ param.sr               = 1000; % sampling arte
 param.window_stim      = [-100 650]; % window of presentation
 param.window_dec       = [-500 100]; % window of presentation
 param.window_gap       = 50;
-param.coherence        = 4;
+param.coherence        = 1;
 param.channel          = 22;%[20:24]; % 22 21 16 44 48   56 57 63 12 40
 param.time_stim        = -500:1500;
 param.time_dec         = -1500:500;
@@ -102,8 +103,8 @@ else
     this_rp(1:length(str2num(param.subj_name)), :, :) = squeeze( erp_data(param.coherence).coh.rp(str2num(param.subj_name), param.channel, :, :) );
     
 end
-
-for iCatg = 1 : 4
+ic = 1;
+for iCatg = [1 2 4 3] 
     
     this_data_stim = this_st(:, :, iCatg);
     this_data_dec  = this_rp(:, :, iCatg);
@@ -114,9 +115,9 @@ for iCatg = 1 : 4
     time_vec    = sum(abs(param.window_stim)) + sum(abs(param.window_dec)) + abs(param.window_gap);
     h           = plot([mean_data_stim NaN * ones(1, param.window_gap) mean_data_dec]);
     h.LineWidth = plot_linewidth;
-    h.Color     = cl(iCatg, :);
+    h.Color     = cl(ic, :);
     hold on
-
+    ic = 1 + ic;
 end
 
 time_vec
@@ -152,7 +153,10 @@ aX.XLim             = [0 time_vec];
 % aX.YAxisLocation    = 'origin';
 
 % change legend properties
-h           = legend('Control', 'Famous', 'Familiar', 'Self');
+% there are 4 types of trials
+% 1) contol, 2) famous, 3) self, 4) familiar
+% the above is the correct labels in the psychophysics data
+h           = legend('Control', 'Famous',  'Self', 'Familiar');
 h.Location  = legend_box_loaction;
 h.Box       = legend_box_outline;
 h.FontAngle = legend_fontangel;
@@ -164,3 +168,4 @@ fig.PaperUnits      = 'centimeters';
 fig.Position        = [100 100 600 300];
 fig.PaperSize       = pdf_paper_size;
 print([ analysis_figures_dir '\' pdf_file_name '.pdf'], '-dpdf', pdf_print_resolution)
+

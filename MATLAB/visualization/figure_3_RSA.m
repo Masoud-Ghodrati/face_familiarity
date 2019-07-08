@@ -2,11 +2,11 @@ clear
 close all
 clc
 
-param.data_path             = [ cd '\data\'];
-param.analysis_figures_dir  = [cd];
-param.region                = [3];
+param.data_path             = ['C:\MyFolder\Face_Familiarity\Data\RSA_data\'];
+param.analysis_figures_dir  = ['C:\MyFolder\Face_Familiarity\Git\face_familiarity\Figure_03\plot3'];
+param.region                = [1];
 param.coherence             = [0.22 0.3 0.45 0.55];
-param.task                  = [1];
+param.task                  = [2];
 
 
 
@@ -18,19 +18,23 @@ for iCoh = 1 : length(param.coherence)
         num2str(param.region) '_coherence_' num2str(param.coherence(iCoh)) '.mat'])
     if param.task == 1
         param.aligned(1).data(1, :, iCoh) = nanmean(Correlations_Fam_Unfam);
+         param.aligned(1).data(2, :, iCoh) = significance_Fam_Unfam;
     else
         param.aligned(1).data(1, :, iCoh) = nanmean(Correlations_Fam_Levels);
+        param.aligned(1).data(2, :, iCoh) = significance_Fam_Levels;
     end
-    param.aligned(1).data(2, :, iCoh) = significance;
+   
     
     load([param.data_path 'rp_aligned_RDM_New_summarized_for_Masoud_region_',...
         num2str(param.region) '_coherence_' num2str(param.coherence(iCoh)) '.mat'])
     if param.task == 1
         param.aligned(2).data(1, :, iCoh) = nanmean(Correlations_Fam_Unfam);
+        param.aligned(2).data(2, :, iCoh) = significance_Fam_Unfam;
     else
         param.aligned(2).data(1, :, iCoh) = nanmean(Correlations_Fam_Levels);
+        param.aligned(2).data(2, :, iCoh) = significance_Fam_Levels;
     end
-    param.aligned(2).data(2, :, iCoh) = significance;  
+      
     
 end
 
@@ -62,10 +66,10 @@ param.subj_name        = 'all';
 param.error            = 'sem';
 param.p_tresh          = 0.05;
 % set plot properties
-plot_linewidth         = 1;
+plot_linewidth         = 0.7;
 
 % set axis properties
-axis_ylim              = [-0.005 0.03];
+axis_ylim              = [-0.01 0.05];
 axis_ylim_spc          = 6;
 axis_xlim_spc_st       = 7;
 axis_xlim_spc_rp       = 6;
@@ -94,8 +98,8 @@ pdf_paper_size         = [20 20];
 pdf_print_resolution   = '-r300';
 
 %
-cl                     = colormap(hot);
-cl                     = cl(1:10:end, :);
+cl                     = colormap(cool);
+cl                     = cl(1:15:end, :);
 
 
 % extract the data
@@ -128,7 +132,7 @@ for iCoh = 1 : 4
     h.Color     = cl(iCoh, :);
     hold on
     h           = plot(param.window_stim(1) : param.slidwind : param.window_stim(2), pval_stim);
-    h.LineWidth = plot_linewidth + 2;
+    h.LineWidth = plot_linewidth + 1;
     h.Color     = cl(iCoh, :);
     
     
@@ -139,7 +143,7 @@ for iCoh = 1 : 4
     h.Color     = cl(iCoh, :);
     hold on
     h           = plot(param.window_dec(1) : param.slidwind : param.window_dec(2), pval_dec);
-    h.LineWidth = plot_linewidth + 2;
+    h.LineWidth = plot_linewidth + 1;
     h.Color     = cl(iCoh, :);
 end
 
@@ -218,7 +222,7 @@ print([ param.analysis_figures_dir '\' pdf_file_name '.pdf'], '-dpdf', pdf_print
 
 % plot model RDMS
 figure(2)
-c = colormap(hot);
+c = colormap(gray);
 c = c(end:-1:1,:);
 c = c(10:30, :);
 subplot(121)

@@ -2,8 +2,8 @@ clear
 close all
 clc
 
-param.data_path     = '\\ad.monash.edu\home\User098\masoudg\Desktop\EEG_Psycho_Data\Data\ERP_data';
-analysis_figures_dir = '\\ad.monash.edu\home\User098\masoudg\Desktop\EEG_Psycho_Data\Figure 1\plots';
+param.data_path     = 'C:\MyFolder\Face_Familiarity\Data\ERP_data';
+analysis_figures_dir = 'C:\MyFolder\Face_Familiarity\Git\face_familiarity\Figure_01\plots';
 
 load([param.data_path '\St_aligned_ERPs_categories_coh_0.22.mat'])
 erp_data(1).coh.st = ff;
@@ -41,7 +41,7 @@ param.sr               = 1000; % sampling arte
 param.window_stim      = [-100 600]; % window of presentation
 param.window_dec       = [-500 100]; % window of presentation
 param.window_gap       = 50;
-param.coherence        = 4;
+param.coherence        = 1;
 param.channel          = 22;%[20:24]; % 22 21 16 44 48   56 57 63 12 40
 param.time_stim        = -500:1500;
 param.time_dec         = -1500:500;
@@ -102,8 +102,8 @@ else
     this_rp(1:length(str2num(param.subj_name)), :, :) = squeeze( erp_data(param.coherence).coh.rp(str2num(param.subj_name), param.channel, :, :) );
     
 end
-
-for iCatg = 1 : 4
+ic = 1;
+for iCatg = [1 2 4 3] 
     
     this_data_stim = this_st(:, :, iCatg);
     this_data_dec  = this_rp(:, :, iCatg);
@@ -115,15 +115,15 @@ for iCatg = 1 : 4
     % plot the results
     h           = plot(param.window_stim(1) : param.window_stim(2), mean_data_stim);
     h.LineWidth = plot_linewidth;
-    h.Color     = cl(iCatg, :);
+    h.Color     = cl(ic, :);
     hold on
     
     subplot(1, 2, 2)
     h           = plot(param.window_dec(1) : param.window_dec(2), mean_data_dec);
     h.LineWidth = plot_linewidth;
-    h.Color     = cl(iCatg, :);
+    h.Color     = cl(ic, :);
     hold on
-    
+    ic = ic + 1 ;
 end
 
 chan_locations{1}{param.channel}
@@ -181,7 +181,7 @@ aX.XLim             = [param.window_dec(1), param.window_dec(end)];
 
 
 % change legend properties
-h           = legend('Control', 'Famous', 'Familiar', 'Self');
+h           = legend('Control', 'Famous', 'Self', 'Familiar');
 h.Location  = legend_box_loaction;
 h.Box       = legend_box_outline;
 h.FontAngle = legend_fontangel;

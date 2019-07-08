@@ -2,10 +2,10 @@ clear
 close all
 clc
 
-param.data_path = '\\ad.monash.edu\home\User098\masoudg\Desktop\EEG_Psycho_Data\Data\Decoding_data\Temporal_decoding_data';
-param.analysis_figures_dir = '\\ad.monash.edu\home\User098\masoudg\Desktop\EEG_Psycho_Data\Figure_02\plots';
+param.data_path = 'C:\MyFolder\Face_Familiarity\Data\Decoding_data\Temporal_decoding_data';
+param.analysis_figures_dir = 'C:\MyFolder\Face_Familiarity\Git\face_familiarity\Figure_02\plots';
 
-param.region = 'occipito';  % occipito, whole, fronto
+param.region = 'whole';  % occipito, whole, fronto
 % You should re
 switch param.region
     case 'occipito'
@@ -54,7 +54,7 @@ param.subj_name        = 'all';
 param.error            = 'sem';
 param.p_tresh          = 0.05;
 % set plot properties
-plot_linewidth         = 1;
+plot_linewidth         = 0.7;
 
 % set axis properties
 axis_ylim              = [0.48 0.58];%[-15 25];%[-10 15];
@@ -86,8 +86,8 @@ pdf_paper_size         = [20 20];
 pdf_print_resolution   = '-r300';
 
 %
-cl                     = colormap(hot);
-cl                     = cl(1:10:end, :);
+cl                     = colormap(cool);
+cl                     = cl(1:15:end, :);
 
 
 % extract the data
@@ -135,7 +135,7 @@ for iCoh = 1 : 4
     h.Color     = cl(iCoh, :);
     hold on
     h           = plot(param.window_stim(1) : param.slidwind : param.window_stim(2), pval_stim);
-    h.LineWidth = plot_linewidth + 2;
+    h.LineWidth = plot_linewidth + 1;
     h.Color     = cl(iCoh, :);
     
     
@@ -150,7 +150,7 @@ for iCoh = 1 : 4
     h.Color     = cl(iCoh, :);
     hold on
     h           = plot(param.window_dec(1) : param.slidwind : param.window_dec(2), pval_dec);
-    h.LineWidth = plot_linewidth + 2;
+    h.LineWidth = plot_linewidth + 1;
     h.Color     = cl(iCoh, :);
 end
 
@@ -208,7 +208,7 @@ aX.XLim             = [param.window_dec(1), param.window_dec(end)];
 
 
 % change legend properties
-h           = legend('Control', 'Famous', 'Familiar', 'Self');
+h           = legend('22 %', '22 %', '35 %', '35 %','45 %', '35 %', '55 %', '55 %');
 h.Location  = legend_box_loaction;
 h.Box       = legend_box_outline;
 h.FontAngle = legend_fontangel;

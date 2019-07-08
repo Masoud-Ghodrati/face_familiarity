@@ -2,10 +2,10 @@ clear
 close all
 clc
 
-param.data_path = '\\ad.monash.edu\home\User098\masoudg\Desktop\EEG_Psycho_Data\Data\Decoding_data\Temporal_decoding_data';
-param.analysis_figures_dir = '\\ad.monash.edu\home\User098\masoudg\Desktop\EEG_Psycho_Data\Figure_04\plots';
+param.data_path = 'C:\MyFolder\Face_Familiarity\Data\Decoding_data\Temporal_decoding_data';
+param.analysis_figures_dir = 'C:\MyFolder\Face_Familiarity\Git\face_familiarity\Figure_02\plots';
 
-param.region = 'occipito';  % occipito, whole, fronto
+param.region = 'whole';  % occipito, whole, fronto
 % You should re
 switch param.region
     case 'occipito'
@@ -54,7 +54,7 @@ param.subj_name        = 'all';
 param.error            = 'sem';
 param.p_tresh          = 0.06;
 % set plot properties
-plot_linewidth         = 1;
+plot_linewidth         = 0.7;
 
 % set axis properties
 axis_ylim              = [0.45 0.7];%[-15 25];%[-10 15];
@@ -86,11 +86,13 @@ pdf_paper_size         = [20 20];
 pdf_print_resolution   = '-r300';
 
 %
-cl                     = my_color_map;
-cl_step                = 10;
+
+cl                     = colormap(hot);
+cl                     = cl(1:10:end, :);
+
 
 % extract the data
-
+ic                     = [3 4 2 1];
 for iCon = 1 : length(param.cond)
     
     this_data_stim = squeeze(decoding_data.st(param.coherence , :, param.cond(iCon), :));
@@ -131,11 +133,11 @@ for iCon = 1 : length(param.cond)
     %     hold on
     h           = plot(param.window_stim(1) : param.slidwind : param.window_stim(2), mean_data_stim);
     h.LineWidth = plot_linewidth;
-    h.Color     = cl{iCon}(cl_step*(4-param.coherence)+1, :);
+    h.Color     = cl(ic(iCon), :);
     hold on
     h           = plot(param.window_stim(1) : param.slidwind : param.window_stim(2), pval_stim);
-    h.LineWidth = plot_linewidth + 2;
-    h.Color     = cl{iCon}(cl_step*(4-param.coherence)+1, :);
+    h.LineWidth = plot_linewidth + 1;
+    h.Color     = cl(ic(iCon), :);
     
     
     subplot(1, 2, 2)
@@ -146,11 +148,12 @@ for iCon = 1 : length(param.cond)
     
     h           = plot(param.window_dec(1) : param.slidwind : param.window_dec(2), mean_data_dec);
     h.LineWidth = plot_linewidth;
-    h.Color     = cl{iCon}(cl_step*(4-param.coherence)+1, :);
+    h.Color     = cl(ic(iCon), :);
     hold on
     h           = plot(param.window_dec(1) : param.slidwind : param.window_dec(2), pval_dec);
-    h.LineWidth = plot_linewidth + 2;
-    h.Color     = cl{iCon}(cl_step*(4-param.coherence)+1, :);
+    h.LineWidth = plot_linewidth + 1;
+    h.Color     = cl(ic(iCon), :);
+    
     
 end
 

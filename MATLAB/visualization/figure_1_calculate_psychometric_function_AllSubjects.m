@@ -8,8 +8,9 @@ clear
 close all
 clc
 
-file_Path         = '\\ad.monash.edu\home\User098\masoudg\Desktop\EEG_Psycho_Data\Data\Behavioral_data';  % file path for subject recorded data
+file_Path        = 'C:\MyFolder\Face_Familiarity\Data\Behavioral_data';  % file path for subject recorded data
 file_Name        = 'Face_Discrimination_Data_Subject_';             % file name for subject recorded data
+save_path        = 'C:\MyFolder\Face_Familiarity\Git\face_familiarity\Figure_01\plots';
 num_Subjects     = [1: 16 20 21];
 
 each_Subject_Res = cell(1, length(num_Subjects));  % empty cell to store subject data
@@ -34,7 +35,8 @@ end
 
 
 trial_Type_Index = unique( all_Subject_Res(end,:) );  % there are 4 types of trials
-% 1) contro, 2) famous, 3) self, 4) failiar
+% 1) contol, 2) famous, 3) self, 4) familiar
+% the above is the correct labels in the psychophysics data
 
 for iTrial_Type_Ind = 1 : length(trial_Type_Index)
     
@@ -57,7 +59,7 @@ for iTrial_Type_Ind = 1 : length(trial_Type_Index)
         % just take correct response RTs
         rt_Array(iTrial_Type_Ind, iCoherence_Steps, 1)          = median( temp_RT_Array(temp_Accuracy_Array == 1)/1000);
         rt_Array(iTrial_Type_Ind, iCoherence_Steps, 2)          = std( temp_RT_Array(temp_Accuracy_Array == 1)/1000)/sqrt(18);
-       
+        
         % calculte accuracy for each orientaion difference
         accuracy_Array(iTrial_Type_Ind, iCoherence_Steps, 1) = nansum(temp_Accuracy_Array) ;
         accuracy_Array(iTrial_Type_Ind, iCoherence_Steps, 2) = trails_Num;
@@ -194,15 +196,15 @@ Y_AXIS_1ST_TICK        = 0.2;
 Y_AXIS_1ST_TICK_RT     = 0.5;
 Y_AXIS_LABEL_NUM_STEPS = 3;
 SAVE_PDF               = true;          % do you want to save PDF file of the paper
-WANT_LEGEND            = false;         % do you want legend
+WANT_LEGEND            = true;         % do you want legend
 FONT_SIZE              = 10;
 FIGURE_DIMENSION       = [0 0 550 230;
-                          0 0 500 230]; % dimesion of the printed figure
+    0 0 500 230]; % dimesion of the printed figure
 PRINTED_FIGURE_SIZE    = [20, 20];      % the size of printed PDF file, cm
 PDF_RESOLUTION         = '-r300';
 cl                     = colormap(hot);
 cl                     = cl(1:10:end, :);
-cl = 0.7*ones(2,3);
+% cl = 0.7*ones(2,3);
 MARKER_COLOR           = cl;
 MARKER_SIZE_Scale      = 0;
 LINE_WIDTH_Scale       = -0.5;
@@ -232,11 +234,11 @@ for iTrial_Type_Ind = 1 : size(accuracy_Array, 1)
     h1.CapSize         = 0;
     h1.LineWidth       = LINE_WIDTH;
     hold on
-%     plot(StimLevelsFineGrain, ProportionCorrectModel, '-', 'color',...
-%         MARKER_COLOR(MARKER_IND, :), 'linewidth', LINE_WIDTH)
+    %     plot(StimLevelsFineGrain, ProportionCorrectModel, '-', 'color',...
+    %         MARKER_COLOR(MARKER_IND, :), 'linewidth', LINE_WIDTH)
     
     subplot(122)
-        if sEM_AS_ERRORBAR == true
+    if sEM_AS_ERRORBAR == true
         h1 = errorbar(unique_Noise_Coherence, rt_Array(iTrial_Type_Ind, :, 1), rt_Array(iTrial_Type_Ind, :, 2), '--o');
     else
         h1 = errorbar(unique_Noise_Coherence, rt_Array(iTrial_Type_Ind, :, 1), rt_Array(iTrial_Type_Ind, :, 2), '--o');
@@ -249,8 +251,8 @@ for iTrial_Type_Ind = 1 : size(accuracy_Array, 1)
     h1.CapSize         = 0;
     h1.LineWidth       = LINE_WIDTH;
     hold on
-%     plot(StimLevelsFineGrain, ProportionCorrectModel, '-', 'color',...
-%         MARKER_COLOR(MARKER_IND, :), 'linewidth', LINE_WIDTH)
+    %     plot(StimLevelsFineGrain, ProportionCorrectModel, '-', 'color',...
+    %         MARKER_COLOR(MARKER_IND, :), 'linewidth', LINE_WIDTH)
     
     
     MARKER_IND  = MARKER_IND +1;
@@ -320,13 +322,13 @@ if SAVE_PDF == true
     
     if WANT_LEGEND == true
         
-        print('-dpdf', PDF_RESOLUTION, ['Psychometric_Function_Legend_' date '.pdf'])
-        winopen(['Psychometric_Function_Legend_' date '.pdf'])
+        print('-dpdf', PDF_RESOLUTION, [save_path '\Psychometric_Function_Legend_' date '.pdf'])
+        winopen([save_path '\Psychometric_Function_Legend_' date '.pdf'])
         
     elseif WANT_LEGEND == false
         
-        print('-dpdf', PDF_RESOLUTION, ['Psychometric_Function_' date '.pdf'])
-        winopen(['Psychometric_Function_' date '.pdf'])
+        print('-dpdf', PDF_RESOLUTION, [save_path '\Psychometric_Function_' date '.pdf'])
+        winopen([save_path '\Psychometric_Function_' date '.pdf'])
         
     end
     
