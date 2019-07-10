@@ -78,7 +78,7 @@ axis_tick_len          = 2;
 axis_box_outline       = 'off';
 axis_tick_style        = 'out';
 axis_xlabel            = 'Time (s)';
-axis_ylabel            = 'r^2';
+axis_ylabel            = 'Spearman''s {\it\rho}';
 axis_yxlabel_fontsize  = 10;
 axis_yxlabel_fontangle = 'normal';
 axis_yxtick_fontsize   = 8;
@@ -222,9 +222,9 @@ print([ param.analysis_figures_dir '\' pdf_file_name '.pdf'], '-dpdf', pdf_print
 
 % plot model RDMS
 figure(2)
-c = colormap(gray);
-c = c(end:-1:1,:);
-c = c(10:30, :);
+c = colormap();
+% c = c(end:-1:1,:);
+% c = c(10:30, :);
 subplot(121)
 imagesc(Familiar_Unfamiliar_Model_RDM)
 colormap(c);
