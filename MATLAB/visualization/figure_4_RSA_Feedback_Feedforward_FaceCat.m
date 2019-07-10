@@ -5,7 +5,7 @@ clc
 param.data_path             = ['C:\MyFolder\Face_Familiarity\Data\RSA_feedback_feedforward_data\'];
 param.analysis_figures_dir  = ['C:\MyFolder\Face_Familiarity\Git\face_familiarity\Figure_04\plots'];
 param.region                = [3];
-param.coherence             = [0.30];
+param.coherence             = [0.55];
 param.file_names            = {'st_information_flow_analysis_coherence_',...
     'rp_information_flow_analysis_coherence_'};
 
@@ -14,33 +14,33 @@ for iFile = 1 : length(param.file_names )
     load([param.data_path param.file_names{iFile} num2str(param.coherence) '.mat'])
     
     % extarct data for occipital
-    param.aligned(iFile).data_ocip(1, :, 1) = nanmean(ParCorr_ocpt_FamUnfam);
-    param.aligned(iFile).data_ocip(1, :, 2) = signif_ocpt_FamUnfam;
+    param.aligned(iFile).data_ocip(1, :, 1) = nanmean(ParCorr_ocpt_Levels);
+    param.aligned(iFile).data_ocip(1, :, 2) = signif_ocpt_Levels;
     
-    param.aligned(iFile).data_ocip(2, :, 1) = nanmean(ParCorr_ocpt_minus_frnt_FamUnfam);
-    param.aligned(iFile).data_ocip(2, :, 2) = signif_ocpt_minus_frnt_FamUnfam;
+    param.aligned(iFile).data_ocip(2, :, 1) = nanmean(ParCorr_ocpt_minus_frnt_Levels);
+    param.aligned(iFile).data_ocip(2, :, 2) = signif_ocpt_minus_frnt_Levels;
     
-    param.aligned(iFile).data_ocip(3, :, 1) = nanmean(ParCorr_ocpt_minus_frnt_and_ocpt_FamUnfam);
-    param.aligned(iFile).data_ocip(3, :, 2) = signif_ocpt_minus_frnt_and_ocpt_FamUnfam;
+    param.aligned(iFile).data_ocip(3, :, 1) = nanmean(ParCorr_ocpt_minus_frnt_and_ocpt_Levels);
+    param.aligned(iFile).data_ocip(3, :, 2) = signif_ocpt_minus_frnt_and_ocpt_Levels;
     
     param.aligned(iFile).data_ocip(4, :, 1) = param.aligned(iFile).data_ocip(1, :, 1) - param.aligned(iFile).data_ocip(2, :, 1);
-    param.aligned(iFile).data_ocip(4, :, 2) = signif_ocpt_1_3_FamUnfam(1, :);
+    param.aligned(iFile).data_ocip(4, :, 2) = signif_ocpt_1_3_Levels(1, :);
     
     param.aligned(iFile).data_ocip(5, :, 1) = nanmean(difference_flow_to_Frnt_minus_to_Ocpt);
     param.aligned(iFile).data_ocip(5, :, 2) = signif_difference_flow_to_Frnt_minus_to_Ocpt;
     
     % extract data for frontal
-    param.aligned(iFile).data_fron(1, :, 1) = nanmean(ParCorr_frnt_FamUnfam);
-    param.aligned(iFile).data_fron(1, :, 2) = signif_frnt_FamUnfam;
+    param.aligned(iFile).data_fron(1, :, 1) = nanmean(ParCorr_frnt_Levels);
+    param.aligned(iFile).data_fron(1, :, 2) = signif_frnt_Levels;
     
-    param.aligned(iFile).data_fron(2, :, 1) = nanmean(ParCorr_frnt_minus_ocpt_FamUnfam);
-    param.aligned(iFile).data_fron(2, :, 2) = signif_frnt_minus_ocpt_FamUnfam;
+    param.aligned(iFile).data_fron(2, :, 1) = nanmean(ParCorr_frnt_minus_ocpt_Levels);
+    param.aligned(iFile).data_fron(2, :, 2) = signif_frnt_minus_ocpt_Levels;
     
-    param.aligned(iFile).data_fron(3, :, 1) = nanmean(ParCorr_frnt_minus_ocpt_and_frnt_FamUnfam);
-    param.aligned(iFile).data_fron(3, :, 2) = signif_frnt_minus_ocpt_and_frnt_FamUnfam;
+    param.aligned(iFile).data_fron(3, :, 1) = nanmean(ParCorr_frnt_minus_ocpt_and_frnt_Levels);
+    param.aligned(iFile).data_fron(3, :, 2) = signif_frnt_minus_ocpt_and_frnt_Levels;
     
     param.aligned(iFile).data_fron(4, :, 1) = param.aligned(iFile).data_fron(1, :, 1) - param.aligned(iFile).data_fron(2, :, 1);
-    param.aligned(iFile).data_fron(4, :, 2) = signif_frnt_1_3_FamUnfam(1, :);
+    param.aligned(iFile).data_fron(4, :, 2) = signif_frnt_1_3_Levels(1, :);
     
     param.aligned(iFile).data_fron(5, :, 1) = nanmean(difference_flow_to_Frnt_minus_to_Ocpt);
     param.aligned(iFile).data_fron(5, :, 2) = signif_difference_flow_to_Frnt_minus_to_Ocpt;
@@ -100,7 +100,7 @@ legend_fontangel       = 'normal';
 legend_fontsize        = 8;
 
 % set saveing/printing properties
-pdf_file_name          = ['rdm_' num2str(param.coherence) '_' date];
+pdf_file_name          = ['rdm_feedbadk_FaceCat' num2str(param.coherence) '_' date];
 pdf_paper_size         = [20 20];
 pdf_print_resolution   = '-r300';
 
