@@ -5,7 +5,7 @@ clc
 param.data_path             = ['C:\MyFolder\Face_Familiarity\Data\RSA_feedback_feedforward_data\'];
 param.analysis_figures_dir  = ['C:\MyFolder\Face_Familiarity\Git\face_familiarity\Figure_04\plots'];
 param.region                = [3];
-param.coherence             = [0.30];
+param.coherence             = [0.55];
 param.file_names            = {'st_information_flow_analysis_coherence_',...
     'rp_information_flow_analysis_coherence_'};
 
@@ -23,7 +23,7 @@ for iFile = 1 : length(param.file_names )
     param.aligned(iFile).data_ocip(3, :, 1) = nanmean(ParCorr_ocpt_minus_frnt_and_ocpt_FamUnfam);
     param.aligned(iFile).data_ocip(3, :, 2) = signif_ocpt_minus_frnt_and_ocpt_FamUnfam;
     
-    param.aligned(iFile).data_ocip(4, :, 1) = param.aligned(iFile).data_ocip(1, :, 1) - param.aligned(iFile).data_ocip(2, :, 1);
+    param.aligned(iFile).data_ocip(4, :, 1) = (param.aligned(iFile).data_ocip(1, :, 1) - param.aligned(iFile).data_ocip(2, :, 1));
     param.aligned(iFile).data_ocip(4, :, 2) = signif_ocpt_1_3_FamUnfam(1, :);
     
     param.aligned(iFile).data_ocip(5, :, 1) = nanmean(difference_flow_to_Frnt_minus_to_Ocpt);
@@ -39,7 +39,7 @@ for iFile = 1 : length(param.file_names )
     param.aligned(iFile).data_fron(3, :, 1) = nanmean(ParCorr_frnt_minus_ocpt_and_frnt_FamUnfam);
     param.aligned(iFile).data_fron(3, :, 2) = signif_frnt_minus_ocpt_and_frnt_FamUnfam;
     
-    param.aligned(iFile).data_fron(4, :, 1) = param.aligned(iFile).data_fron(1, :, 1) - param.aligned(iFile).data_fron(2, :, 1);
+    param.aligned(iFile).data_fron(4, :, 1) = (param.aligned(iFile).data_fron(1, :, 1) - param.aligned(iFile).data_fron(2, :, 1));
     param.aligned(iFile).data_fron(4, :, 2) = signif_frnt_1_3_FamUnfam(1, :);
     
     param.aligned(iFile).data_fron(5, :, 1) = nanmean(difference_flow_to_Frnt_minus_to_Ocpt);
@@ -75,7 +75,7 @@ plot_linewidth         = 0.7;
 
 % set axis properties
 axis_ylim              = [-0.01 0.045];
-axis_ylim_diff         = [-4 14]*10^-3;
+axis_ylim_diff         = [-0.005 0.015];%[-4 14]*10^-3;
 axis_ylim_spc          = 6;
 axis_xlim_spc_st       = 7;
 axis_xlim_spc_rp       = 6;
@@ -85,7 +85,7 @@ axis_box_outline       = 'off';
 axis_tick_style        = 'out';
 axis_xlabel            = 'Time (s)';
 axis_ylabel            = 'Partial Spearman''s {\it\rho}';
-axis_ylabel_diff       = '\Delta _{\it forward - backward} ';
+axis_ylabel_diff       = 'Information flow (change in {\it\rho}) ';
 axis_yxlabel_fontsize  = 10;
 axis_yxlabel_fontangle = 'normal';
 axis_yxtick_fontsize   = 8;
@@ -110,7 +110,7 @@ cl                     = cl(1:10:end, :);
 colors                 = [1 2 3];
 gray_scale             = 0.7;
 % extract the data
-for iCond = [1 2 4 5]
+for iCond = [1 2 4]
     
     % for stim aligned occipital
     this_data_ocip_stim = param.aligned(1).data_ocip(iCond, :, 1);
@@ -399,7 +399,7 @@ if iCond ~= 5
 else
     h.Color     = 0.7*[1 1 1];
 end
-h.LineStyle = param.linestyle{1};
+h.LineStyle = param.linestyle{2};
 axis off
 legend('XX')
 legend boxoff

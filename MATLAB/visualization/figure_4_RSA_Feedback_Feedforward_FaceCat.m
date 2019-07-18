@@ -85,7 +85,7 @@ axis_box_outline       = 'off';
 axis_tick_style        = 'out';
 axis_xlabel            = 'Time (s)';
 axis_ylabel            = 'Partial Spearman''s {\it\rho}';
-axis_ylabel_diff       = '\Delta _{\it forward - backward} ';
+axis_ylabel_diff       = 'Information flow (change in {\it\rho})';
 axis_yxlabel_fontsize  = 10;
 axis_yxlabel_fontangle = 'normal';
 axis_yxtick_fontsize   = 8;
@@ -110,7 +110,7 @@ cl                     = cl(1:10:end, :);
 colors                 = [1 2 3];
 gray_scale             = 0.7;
 % extract the data
-for iCond = [1 2 4 5]
+for iCond = [1 2 4]
     
     % for stim aligned occipital
     this_data_ocip_stim = param.aligned(1).data_ocip(iCond, :, 1);
