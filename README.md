@@ -1,1 +1,1 @@
-# face_familiarity
+# Face Familiarity Project
