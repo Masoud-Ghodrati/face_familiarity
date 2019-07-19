@@ -5,7 +5,7 @@ clc
 param.data_path             = ['C:\MyFolder\Face_Familiarity\Data\RSA_feedback_feedforward_data\'];
 param.analysis_figures_dir  = ['C:\MyFolder\Face_Familiarity\Git\face_familiarity\Figure_04\plots'];
 param.region                = [3];
-param.coherence             = [0.55];
+param.coherence             = [0.22];
 param.file_names            = {'st_information_flow_analysis_coherence_',...
     'rp_information_flow_analysis_coherence_'};
 
@@ -110,7 +110,7 @@ cl                     = cl(1:10:end, :);
 colors                 = [1 2 3];
 gray_scale             = 0.7;
 % extract the data
-for iCond = [1 2 4]
+for iCond = [1 2 4 5]
     
     % for stim aligned occipital
     this_data_ocip_stim = param.aligned(1).data_ocip(iCond, :, 1);
