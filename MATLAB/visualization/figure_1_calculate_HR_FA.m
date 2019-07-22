@@ -9,65 +9,18 @@ close all
 clc
 
 file_Path        = 'C:\MyFolder\Face_Familiarity\Data\Behavioral_data';  % file path for subject recorded data
-file_Name        = 'Face_Discrimination_Data_Subject_';             % file name for subject recorded data
+file_Name        = 'Hit_rates_False_alarms_and_Correct_reaction_times';             % file name for subject recorded data
 save_path        = 'C:\MyFolder\Face_Familiarity\Git\face_familiarity\Figure_01\plots';
-num_Subjects     = [1: 16 20 21];
 
-each_Subject_Res = cell(1, length(num_Subjects));  % empty cell to store subject data
-all_Subject_Res  = [];                    % empat array to store all subject data
-
-for isub = 1 : length(num_Subjects)
-    
-    subj_data_files = dir([file_Path '\' file_Name num2str(num_Subjects(isub), '%0.2d') '_*.mat']);
-    this_subj_data  = [];
-    
-    for ifile = 1 : length(subj_data_files)
-        
-        % load the data
-        load([file_Path '\' subj_data_files(ifile).name])
-        all_Subject_Res = [ all_Subject_Res stim.ResponseData.Values];
-        this_subj_data  = [ this_subj_data  stim.ResponseData.Values];
-        
-        
-    end
-    each_Subject_Res{isub} = this_subj_data;
-end
-
-
-trial_Type_Index = unique( all_Subject_Res(end,:) );  % there are 4 types of trials
+% load the data
+load([file_Path '\' file_Name '.mat'])
+num_subj         = 18;
+trial_Type_Index = 1 : 4;  % there are 4 types of trials
 % 1) contol, 2) famous, 3) self, 4) familiar
 % the above is the correct labels in the psychophysics data
-for isub = 1 : length(num_Subjects)
-    for iTrial_Type_Ind = 1 : length(trial_Type_Index)
-        
-        % make a cell array consisting of information for every trial type
-        this_Condition_Response_Array{isub}{iTrial_Type_Ind} = each_Subject_Res{isub}(:, each_Subject_Res{isub}(end, :) == trial_Type_Index(iTrial_Type_Ind));
-        
-    end
-end
-
-unique_Noise_Coherence = stim.coherence_Values;
-nTrial_fam             = 60;             
+unique_Noise_Coherence = [0.22 0.33 0.45 0.55];
 % calculte reaction time and accurcy for every condition
-for isub = 1 : length(num_Subjects)
-    for iTrial_Type_Ind = 1 : length(trial_Type_Index)
-        
-        for iCoherence_Steps = 1 : length(unique_Noise_Coherence)
-            
-            % extract some information
-            temp_RT_Array       = this_Condition_Response_Array{isub}{iTrial_Type_Ind}(1, this_Condition_Response_Array{isub}{iTrial_Type_Ind}(4,:) == unique_Noise_Coherence(iCoherence_Steps));
-            temp_Accuracy_Array = this_Condition_Response_Array{isub}{iTrial_Type_Ind}(2, this_Condition_Response_Array{isub}{iTrial_Type_Ind}(4,:) == unique_Noise_Coherence(iCoherence_Steps));
 
-            
-            % just take correct response RTs
-            rt_Array(iTrial_Type_Ind, iCoherence_Steps, isub)       = nanmedian( temp_RT_Array(temp_Accuracy_Array == 1))/1000;
-            
-            % calculte accuracy for each orientaion difference
-            accuracy_Array(iTrial_Type_Ind, iCoherence_Steps, isub) = nansum(temp_Accuracy_Array)/ nTrial_fam;
-            
-        end
-    end
-end
 
 %%
 close all
@@ -76,13 +29,13 @@ LINE_WIDTH             = 1;
 MARKER_SIZE            = 4;
 FONT_SIZE              = 10;
 sEM_AS_ERRORBAR        = true;
-all_Legends            = {'Control','','Famous','','Self','','Familiar',''};
+all_Legends            = {'Control','','Familiar','','','','',''};
 AXIS_LINE_WIDTH        = 1;
 TICK_LENGTH            = 2;
 X_AXIS_LIM             = [min(unique_Noise_Coherence)-0.01 max(unique_Noise_Coherence)];
-Y_AXIS_LIM_Perf        = [-0.02 0.4];
+Y_AXIS_LIM_Perf        = [-0.05 1];
 Y_AXIS_LIM_RT          = [0.48 0.9];
-Y_AXIS_1ST_TICK        = -0.0;
+Y_AXIS_1ST_TICK        = 0;
 Y_AXIS_1ST_TICK_RT     = 0.5;
 Y_AXIS_LABEL_NUM_STEPS = 3;
 SAVE_PDF               = true;          % do you want to save PDF file of the paper
@@ -101,15 +54,19 @@ LINE_WIDTH_Scale       = -0.5;
 MARKER_TYPE            = {'o','o','o','o'};
 MARKER_IND             = 1;
 
-for iTrial_Type_Ind = [1 2 3 4]
+for iTrial_Type_Ind = [1 2]
     
-    if iTrial_Type_Ind > 1
     subplot(121)
-    HR = squeeze(accuracy_Array(iTrial_Type_Ind, :, :))';    
+    this_TPR = [squeeze(TPR(:, iTrial_Type_Ind, :, 1));
+        squeeze(TPR(:, iTrial_Type_Ind, :, 2))];
+    
+    this_FPR = [squeeze(FPR(:, iTrial_Type_Ind, :, 1));
+        squeeze(FPR(:, iTrial_Type_Ind, :, 2))];
+    
     if sEM_AS_ERRORBAR == true
-        h1 = errorbar(unique_Noise_Coherence, mean(HR), std(HR)./sqrt(length(num_Subjects)), '-o');
+        h1 = errorbar(unique_Noise_Coherence, nanmean(this_TPR), nanstd(this_TPR)./sqrt(num_subj), '-o');
     else
-        h1 = errorbar(unique_Noise_Coherence, mean(HR), std(HR), '-o');
+        h1 = errorbar(unique_Noise_Coherence, nanmean(this_TPR), nanstd(this_TPR), '-o');
     end
     h1.Marker          = MARKER_TYPE{MARKER_IND};
     h1.Color           = MARKER_COLOR(MARKER_IND, :);
@@ -120,12 +77,10 @@ for iTrial_Type_Ind = [1 2 3 4]
     h1.LineWidth       = LINE_WIDTH;
     hold on
     
-    subplot(122)
-    RT = squeeze(rt_Array(iTrial_Type_Ind, :, :))'; 
     if sEM_AS_ERRORBAR == true
-        h1 = errorbar(unique_Noise_Coherence, nanmedian(RT), nanstd(RT)./sqrt(length(num_Subjects)), '-o');
+        h1 = errorbar(unique_Noise_Coherence, nanmean(this_FPR), nanstd(this_FPR)./sqrt(num_subj), '--o');
     else
-        h1 = errorbar(unique_Noise_Coherence, nanmedian(RT), nanstd(RT), '-o');
+        h1 = errorbar(unique_Noise_Coherence, nanmean(this_FPR), nanstd(this_FPR), '--o');
     end
     h1.Marker          = MARKER_TYPE{MARKER_IND};
     h1.Color           = MARKER_COLOR(MARKER_IND, :);
@@ -134,9 +89,27 @@ for iTrial_Type_Ind = [1 2 3 4]
     h1.MarkerSize      = MARKER_SIZE;
     h1.CapSize         = 0;
     h1.LineWidth       = LINE_WIDTH;
-    hold on  
+    hold on
+    
+    
+    subplot(122)
+    this_RT = [squeeze(RT_correct(:, iTrial_Type_Ind, :, 1));
+        squeeze(RT_correct(:, iTrial_Type_Ind, :, 2))]./1000;
+    if sEM_AS_ERRORBAR == true
+        h1 = errorbar(unique_Noise_Coherence, nanmedian(this_RT), nanstd(this_RT)./sqrt(num_subj), '-o');
+    else
+        h1 = errorbar(unique_Noise_Coherence, nanmedian(this_RT), nanstd(this_RT), '-o');
     end
-    MARKER_IND  = MARKER_IND +1;
+    h1.Marker          = MARKER_TYPE{MARKER_IND};
+    h1.Color           = MARKER_COLOR(MARKER_IND, :);
+    h1.MarkerEdgeColor = MARKER_COLOR(MARKER_IND, :);
+    h1.MarkerFaceColor = MARKER_COLOR(MARKER_IND, :);
+    h1.MarkerSize      = MARKER_SIZE;
+    h1.CapSize         = 0;
+    h1.LineWidth       = LINE_WIDTH;
+    hold on
+    
+    MARKER_IND  = MARKER_IND + 2;
     
 end
 
@@ -161,7 +134,15 @@ aX.YLabel.FontSize  = 10;
 aX.YLabel.FontAngle = 'normal';
 aX.LineWidth   = AXIS_LINE_WIDTH;
 aX.XLabel.String = 'Coherence Level (%)';
-aX.YLabel.String = 'Proportion Correct';
+aX.YLabel.String = 'Hit Rate / False Alarm Aate';
+
+if WANT_LEGEND == true
+    hL     = legend(aX, all_Legends, 'location', 'EastOutside');
+    hL.Box = 'off';
+    SELECTED_FIGURE_DIMENSION = FIGURE_DIMENSION(1, :);
+elseif WANT_LEGEND == false
+    SELECTED_FIGURE_DIMENSION = FIGURE_DIMENSION(2, :);
+end
 
 subplot(122)
 aX             = gca;
@@ -183,16 +164,6 @@ aX.LineWidth   = AXIS_LINE_WIDTH;
 aX.XLabel.String = 'Coherence Level (%)';
 aX.YLabel.String = 'Reaction Time (sec)';
 
-if WANT_LEGEND == true
-    hL     = legend(aX, all_Legends, 'location', 'EastOutside');
-    hL.Box = 'off';
-    SELECTED_FIGURE_DIMENSION = FIGURE_DIMENSION(1, :);
-elseif WANT_LEGEND == false
-    SELECTED_FIGURE_DIMENSION = FIGURE_DIMENSION(2, :);
-end
-
-
-
 set(gcf,'color','w')
 set(gcf, 'Position', SELECTED_FIGURE_DIMENSION)
 set(gcf, 'PaperUnits','centimeters')
@@ -203,13 +174,13 @@ if SAVE_PDF == true
     
     if WANT_LEGEND == true
         
-        print('-dpdf', PDF_RESOLUTION, [save_path '\Psychometric_Function_Legend_' date '.pdf'])
-        winopen([save_path '\Psychometric_Function_Legend_' date '.pdf'])
+        print('-dpdf', PDF_RESOLUTION, [save_path '\HR_FAR_Function_Legend_' date '.pdf'])
+        winopen([save_path '\HR_FAR_Function_Legend_' date '.pdf'])
         
     elseif WANT_LEGEND == false
         
-        print('-dpdf', PDF_RESOLUTION, [save_path '\Psychometric_Function_' date '.pdf'])
-        winopen([save_path '\Psychometric_Function_' date '.pdf'])
+        print('-dpdf', PDF_RESOLUTION, [save_path '\HR_FAR_Function_' date '.pdf'])
+        winopen([save_path '\HR_FAR_Function_' date '.pdf'])
         
     end
     
