@@ -214,7 +214,7 @@ fig                 = gcf;
 fig.PaperUnits      = 'centimeters';
 fig.Position        = [100 100 570 460];
 fig.PaperSize       = pdf_paper_size;
-print([ param.analysis_figures_dir '\' pdf_file_name '_Coh' num2str(param.coherence) '.pdf'], '-dpdf', pdf_print_resolution)
+print([ param.analysis_figures_dir '\' pdf_file_name '.pdf'], '-dpdf', pdf_print_resolution)
 
 
-
+figure(2)
