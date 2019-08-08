@@ -218,3 +218,49 @@ print([ param.analysis_figures_dir '\' pdf_file_name '.pdf'], '-dpdf', pdf_print
 
 
 figure(2)
+m1 = [1 1 1 0 0 0;
+     0 1 1 0 0 0;
+     0 0 1 0 0 0;
+     0 0 0 0 0 0;
+     0 0 0 0 0 0;
+     0 0 0 0 0 0];
+ m2 = [0 0 0 0 0 0;
+     0 0 0 0 0 0;
+     0 0 0 0 0 0;
+     0 0 0 1 0 0;
+     0 0 0 0 0 0;
+     0 0 0 0 0 0];
+  m3 = [0 0 0 0 0 0;
+     0 0 0 0 0 0;
+     0 0 0 0 0 0;
+     0 0 0 0 0 0;
+     0 0 0 0 1 0;
+     0 0 0 0 0 0];
+  m4 = [0 0 0 0 0 0;
+     0 0 0 0 0 0;
+     0 0 0 0 0 0;
+     0 0 0 0 0 0;
+     0 0 0 0 0 0;
+     0 0 0 0 0 1];
+ subplot(1,4,1)
+ imagesc(kron(m1, ones(10)))
+ axis off
+ 
+  subplot(1,4,2)
+ imagesc(kron(m2, ones(10)))
+ axis off
+ 
+  subplot(1,4,3)
+ imagesc(kron(m3, ones(10)))
+ axis off
+ 
+  subplot(1,4,4)
+ imagesc(kron(m4, ones(10)))
+ axis off
+ 
+ % set the prining properties
+fig                 = gcf;
+fig.PaperUnits      = 'centimeters';
+fig.Position        = [100 100 570 110];
+fig.PaperSize       = pdf_paper_size;
+print([ param.analysis_figures_dir '\' pdf_file_name '_MODLEL.png'], '-dpng', pdf_print_resolution)
