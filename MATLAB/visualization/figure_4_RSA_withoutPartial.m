@@ -4,7 +4,7 @@ clc
 
 param.data_path             = ['C:\Masoud\other_projects\face_familiarity\Data\RSA_data\'];
 param.analysis_figures_dir  = ['C:\Masoud\other_projects\face_familiarity\Figure_03\plots'];
-param.region                = [1];
+param.region                = [3];
 param.coherence             = [0.22 0.3 0.45 0.55];
 param.task                  = [2];
 
@@ -14,24 +14,24 @@ param.task                  = [2];
 for iCoh = 1 : length(param.coherence)
     
     
-    load([param.data_path 'st_aligned_RDM_New_summarized_for_Masoud_region_',...
+    load([param.data_path 'st_aligned_partialRDM_New_summarized_for_Masoud_region_',...
         num2str(param.region) '_coherence_' num2str(param.coherence(iCoh)) '.mat'])
     if param.task == 1
-        param.aligned(1).data(1, :, iCoh) = nanmean(Correlations_Fam_Unfam);
+        param.aligned(1).data(1, :, iCoh) = nanmean(ParCorrelations_Fam_Unfam);
          param.aligned(1).data(2, :, iCoh) = significance_Fam_Unfam;
     else
-        param.aligned(1).data(1, :, iCoh) = nanmean(Correlations_Fam_Levels);
+        param.aligned(1).data(1, :, iCoh) = nanmean(ParCorrelations_Fam_Levels);
         param.aligned(1).data(2, :, iCoh) = significance_Fam_Levels;
     end
    
     
-    load([param.data_path 'rp_aligned_RDM_New_summarized_for_Masoud_region_',...
+    load([param.data_path 'rp_aligned_partialRDM_New_summarized_for_Masoud_region_',...
         num2str(param.region) '_coherence_' num2str(param.coherence(iCoh)) '.mat'])
     if param.task == 1
-        param.aligned(2).data(1, :, iCoh) = nanmean(Correlations_Fam_Unfam);
+        param.aligned(2).data(1, :, iCoh) = nanmean(ParCorrelations_Fam_Unfam);
         param.aligned(2).data(2, :, iCoh) = significance_Fam_Unfam;
     else
-        param.aligned(2).data(1, :, iCoh) = nanmean(Correlations_Fam_Levels);
+        param.aligned(2).data(1, :, iCoh) = nanmean(ParCorrelations_Fam_Levels);
         param.aligned(2).data(2, :, iCoh) = significance_Fam_Levels;
     end
       

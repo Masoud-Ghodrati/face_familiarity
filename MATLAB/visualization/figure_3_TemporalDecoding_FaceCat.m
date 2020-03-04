@@ -2,8 +2,8 @@ clear
 close all
 clc
 
-param.data_path = 'C:\MyFolder\Face_Familiarity\Data\Decoding_data\Temporal_decoding_data';
-param.analysis_figures_dir = 'C:\MyFolder\Face_Familiarity\Git\face_familiarity\Figure_02\plots';
+param.data_path = 'C:\Masoud\other_projects\face_familiarity\Data\Decoding_data\Temporal_decoding_data';
+param.analysis_figures_dir = 'C:\Masoud\other_projects\face_familiarity\Figure_02\plots';
 
 param.region = 'whole';  % occipito, whole, fronto
 % You should re
@@ -40,7 +40,7 @@ param.window_dec       = [-500 100]; % window of presentation
 param.window_gap       = 50;
 param.coherence        = 4;
 param.channel          = 22; %[20:24]; % 22 21 16 44 48   56 57 63 12 40
-param.cond             = [6 5 3 2];
+param.cond             = [6 5 4 2];
 % 1: decoding of familiar from unfamiliar (averaged)
 % 2: unfamiliar only
 % 3: familiar only
@@ -57,7 +57,7 @@ param.p_tresh          = 0.06;
 plot_linewidth         = 0.7;
 
 % set axis properties
-axis_ylim              = [0.45 0.7];%[-15 25];%[-10 15];
+axis_ylim              = [0.4 0.7];%[-15 25];%[-10 15];
 axis_ylim_spc          = 6;
 axis_xlim_spc_st       = 7;
 axis_xlim_spc_rp       = 6;
@@ -87,7 +87,7 @@ pdf_print_resolution   = '-r300';
 
 %
 
-cl                     = colormap(hot);
+cl                     = colormap(hot(64));
 cl                     = cl(1:10:end, :);
 
 
