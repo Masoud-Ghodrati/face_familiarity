@@ -4,9 +4,9 @@ clc
 
 param.data_path             = ['C:\Masoud\other_projects\face_familiarity\Data\RSA_data\'];
 param.analysis_figures_dir  = ['C:\Masoud\other_projects\face_familiarity\Figure_03\plots'];
-param.region                = [1];
+param.region                = [3];
 param.coherence             = [0.22 0.3 0.45 0.55];
-param.task                  = [2];
+param.task                  = [1];
 
 
 
@@ -69,7 +69,7 @@ param.p_tresh          = 0.05;
 plot_linewidth         = 0.7;
 
 % set axis properties
-axis_ylim              = [-0.01 0.05];
+axis_ylim              = [-0.01 0.03];
 axis_ylim_spc          = 6;
 axis_xlim_spc_st       = 7;
 axis_xlim_spc_rp       = 6;
