@@ -2,8 +2,8 @@ clear
 close all
 clc
 
-param.data_path     = 'C:\MyFolder\Face_Familiarity\Data\ERP_data';
-analysis_figures_dir = 'C:\MyFolder\Face_Familiarity\Git\face_familiarity\Figure_01\plots';
+param.data_path     = 'D:\Users\Masoud.Ghodrati\Documents\GitHub\face_familiarity\Data\ERP_data';
+analysis_figures_dir = 'D:\Users\Masoud.Ghodrati\Documents\GitHub\face_familiarity';
 
 load([param.data_path '\St_aligned_ERPs_categories_coh_0.22.mat'])
 erp_data(1).coh.st = ff;
@@ -41,7 +41,7 @@ param.sr               = 1000; % sampling arte
 param.window_stim      = [-100 600]; % window of presentation
 param.window_dec       = [-500 100]; % window of presentation
 param.window_gap       = 50;
-param.coherence        = 1;
+param.coherence        = 4;
 param.channel          = 22;%[20:24]; % 22 21 16 44 48   56 57 63 12 40
 param.time_stim        = -500:1500;
 param.time_dec         = -1500:500;
@@ -81,7 +81,7 @@ pdf_paper_size         = [20 20];
 pdf_print_resolution   = '-r300';
 
 % 
-cl                     = colormap(hot);
+cl                     = colormap(hot(64));
 cl                     = cl(1:10:end, :);
 
 
