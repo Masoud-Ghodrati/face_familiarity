@@ -2,8 +2,8 @@ clear
 close all
 clc
 
-param.data_path = 'C:\Masoud\other_projects\face_familiarity\Data\Decoding_data\Temporal_decoding_data';
-param.analysis_figures_dir = 'C:\Masoud\other_projects\face_familiarity\Figure_02\plots';
+param.data_path = 'D:\Users\Masoud.Ghodrati\Documents\GitHub\face_familiarity\Data\Decoding_data\Temporal_decoding_data';
+param.analysis_figures_dir = 'D:\Users\Masoud.Ghodrati\Documents\GitHub\face_familiarity';
 
 param.region = 'whole';  % occipito, whole, fronto
 % You should re
@@ -224,4 +224,4 @@ fig                 = gcf;
 fig.PaperUnits      = 'centimeters';
 fig.Position        = [100 100 570 230];
 fig.PaperSize       = pdf_paper_size;
-print([ param.analysis_figures_dir '\' pdf_file_name '_sub.pdf'], '-dpdf', pdf_print_resolution)
+print([ param.analysis_figures_dir '\' pdf_file_name '_sub_v2.pdf'], '-dpdf', pdf_print_resolution)

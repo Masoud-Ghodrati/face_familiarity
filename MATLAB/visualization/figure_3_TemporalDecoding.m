@@ -2,8 +2,8 @@ clear
 close all
 clc
 
-param.data_path = 'C:\MyFolder\Face_Familiarity\Data\Decoding_data\Temporal_decoding_data';
-param.analysis_figures_dir = 'C:\MyFolder\Face_Familiarity\Git\face_familiarity\Figure_02\plots';
+param.data_path = 'D:\Users\Masoud.Ghodrati\Documents\GitHub\face_familiarity\Data\Decoding_data\Temporal_decoding_data';
+param.analysis_figures_dir = 'D:\Users\Masoud.Ghodrati\Documents\GitHub\face_familiarity';
 
 param.region = 'whole';  % occipito, whole, fronto
 % You should re
@@ -86,7 +86,7 @@ pdf_paper_size         = [20 20];
 pdf_print_resolution   = '-r300';
 
 %
-cl                     = colormap(cool);
+cl                     = colormap(cool(64));
 cl                     = cl(1:15:end, :);
 
 

@@ -2,8 +2,8 @@ clear
 close all
 clc
 
-param.data_path = 'C:\Masoud\other_projects\face_familiarity\Data\Decoding_data\Temporal_decoding_data';
-param.analysis_figures_dir = 'C:\Masoud\other_projects\face_familiarity\Figure_02\plots';
+param.data_path = 'D:\Users\Masoud.Ghodrati\Documents\GitHub\face_familiarity\Data\Decoding_data\Temporal_decoding_data';
+param.analysis_figures_dir = 'D:\Users\Masoud.Ghodrati\Documents\GitHub\face_familiarity';
 
 param.region = 'whole';  % occipito, whole, fronto
 % You should re
@@ -40,7 +40,7 @@ param.window_dec       = [-500 100]; % window of presentation
 param.window_gap       = 50;
 param.coherence        = 4;
 param.channel          = 22; %[20:24]; % 22 21 16 44 48   56 57 63 12 40
-param.cond             = [6 5 4 2];
+param.cond             = [6 5 3 2];
 % 1: decoding of familiar from unfamiliar (averaged)
 % 2: unfamiliar only
 % 3: familiar only
@@ -57,7 +57,7 @@ param.p_tresh          = 0.06;
 plot_linewidth         = 0.7;
 
 % set axis properties
-axis_ylim              = [0.4 0.7];%[-15 25];%[-10 15];
+axis_ylim              = [0.45 0.7];%[-15 25];%[-10 15];
 axis_ylim_spc          = 6;
 axis_xlim_spc_st       = 7;
 axis_xlim_spc_rp       = 6;
@@ -66,7 +66,7 @@ axis_tick_len          = 2;
 axis_box_outline       = 'off';
 axis_tick_style        = 'out';
 axis_xlabel            = 'Time (s)';
-axis_ylabel            = 'Decoding accuracy';
+axis_ylabel            = 'Decoding Accuracy (%)';
 axis_yxlabel_fontsize  = 10;
 axis_yxlabel_fontangle = 'normal';
 axis_yxtick_fontsize   = 8;
@@ -176,6 +176,7 @@ aX.YLabel.FontSize  = axis_yxlabel_fontsize;
 aX.YLabel.FontAngle = axis_yxlabel_fontangle;
 aX.YLim             = axis_ylim;
 aX.YTick            = linspace(axis_ylim(1), axis_ylim(2), axis_ylim_spc);
+aX.YTickLabel       = 100*linspace(axis_ylim(1), axis_ylim(2), axis_ylim_spc);
 aX.XTick            = linspace(param.window_stim(1), param.window_stim(end), 8);
 aX.XTickLabel       = linspace(param.window_stim(1), param.window_stim(end), 8)/1000;
 aX.LineWidth        = axis_linewidth;
@@ -212,7 +213,7 @@ aX.XLim             = [param.window_dec(1), param.window_dec(end)];
 
 % change legend properties
 h           = legend( 'Self', 'Self', 'Personally Familiar', 'Personally Familiar',...
-    'Famous', 'Famous', 'Control', 'Control');
+    'Famous', 'Famous', 'Unfamiliar', 'Unfamiliar');
 h.Location  = legend_box_loaction;
 h.Box       = legend_box_outline;
 h.FontAngle = legend_fontangel;
@@ -225,4 +226,4 @@ fig                 = gcf;
 fig.PaperUnits      = 'centimeters';
 fig.Position        = [100 100 570 230];
 fig.PaperSize       = pdf_paper_size;
-print([ param.analysis_figures_dir '\' pdf_file_name '_sub.pdf'], '-dpdf', pdf_print_resolution)
+print([ param.analysis_figures_dir '\' pdf_file_name '_coh_' num2str(param.coherence) '_sub.pdf'], '-dpdf', pdf_print_resolution)
